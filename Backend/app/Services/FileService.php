@@ -2,12 +2,21 @@
 
 namespace App\Services;
 
-use Image;
+require './vendor/autoload.php';
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Imagick\Driver;
+use Intervention\Image\Gd\Driver as GdDriver;
+
+use Intervention\Image\Facades\Image as Image;
 
 class FileService
 {
     public function updateImage($model, $request)
     {
+        // Create a new manager instance with the desired driver
+        $manager = new ImageManager(new Driver());
+
+        // Create a new image instance
         $image = Image::make($request->file('image'));
 
         if (!empty($model->image)) {
