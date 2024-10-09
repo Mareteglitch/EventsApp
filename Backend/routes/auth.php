@@ -7,6 +7,19 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+
+// Get the authenticated user (used by your frontend to verify session)
+Route::middleware('auth:sanctum')->get('/api/logged-in-user', function () {
+    return response()->json([
+        'user' => Auth::user(),
+    ]);
+});
+
+// CSRF protection (used by your frontend to get the CSRF token)
+Route::get('/sanctum/csrf-cookie', function () {
+    return response()->json('CSRF cookie set');
+});
 
 Route::post('/register', [RegisteredUserController::class, 'store'])
                 ->middleware('guest')
